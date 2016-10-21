@@ -1,0 +1,12 @@
+{
+  "name": "kjtcmws",
+  "version": "1.0.0",
+  "description": "Retrieves TCM schedule information",
+  "main": "tcmws.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kristopher Johnson",
+  "license": "MIT"
+}
+
