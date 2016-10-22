@@ -132,38 +132,39 @@ function getWhatsOnNow(callback) {
 
 // Get all data for a title.  Callback takes arguments (error, title, credits, review).
 function getTitleInfo(titleId, callback) {
-    async.parallel([
-        done => {
-            getTitle(titleId, (error, title) => {
-                if (error) {
-                    done(error);
-                }
-                else {
-                    done(null, title);
-                }
-            });
-        },
-        done => {
-            getCredits(titleId, (error, credits) => {
-                if (error) {
-                    done(error);
-                }
-                else {
-                    done(null, credits);
-                }
-            });
-        },
-        done => {
-            getMaltinReview(titleId, (error, review) => {
-                if (error) {
-                    done(error);
-                }
-                else {
-                    done(null, review);
-                }
-            });
-        }
-    ],
+    async.parallel(
+        [
+            done => {
+                getTitle(titleId, (error, title) => {
+                    if (error) {
+                        done(error);
+                    }
+                    else {
+                        done(null, title);
+                    }
+                });
+            },
+            done => {
+                getCredits(titleId, (error, credits) => {
+                    if (error) {
+                        done(error);
+                    }
+                    else {
+                        done(null, credits);
+                    }
+                });
+            },
+            done => {
+                getMaltinReview(titleId, (error, review) => {
+                    if (error) {
+                        done(error);
+                    }
+                    else {
+                        done(null, review);
+                    }
+                });
+            }
+        ],
         (error, results) => {
             if (error) {
                 callback(error);
@@ -171,7 +172,8 @@ function getTitleInfo(titleId, callback) {
             else {
                 callback(null, results[0], results[1], results[2]);
             }
-        });
+        }
+    );
 }
 
 function logTitle(title) {
@@ -214,7 +216,7 @@ function showWhatsOnNow() {
                 logTitle(title);
                 logCredits(credits);
                 logMaltinReview(review);
-            })
+            });
         }
     });
 }
