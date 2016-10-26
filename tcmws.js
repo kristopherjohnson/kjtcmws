@@ -71,6 +71,7 @@ const favoriteActors = [
     'Harry Belafonte',
     'Hedy Lamarr',
     'Henry Fonda',
+    'Honor Blackman',
     'Humphrey Bogart',
     'Ingrid Bergman',
     'Jack Lemmon',
@@ -115,6 +116,7 @@ const favoriteActors = [
     'Vincent Price',
     'William Holden',
     'William Powell',
+    'Yvonne De Carlo',
 ];
 
 const favoriteDirectors = [
@@ -123,7 +125,7 @@ const favoriteDirectors = [
     'Billy Wilder',
     'David Lean',
     'Ethan Coen',
-    'Francis Ford Coppola',
+    'Francis Coppola',
     'James Whale',
     'Joel Coen',
     'John Ford',
