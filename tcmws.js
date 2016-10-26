@@ -2,7 +2,8 @@
 
 // This script retrieves the next week of scheduled movie airings from Turner
 // Classic Movies (TCM) and displays those movies that match a set of favorite
-// genres, actors, or directors, or have four-star ratings from Leonard Maltin.
+// genres, actors, directors, or screenwriters, or have four-star ratings from
+// Leonard Maltin.
 
 "use strict";
 
@@ -57,6 +58,7 @@ const favoriteActors = [
     'Edward G. Robinson',
     'Fred MacMurray',
     'Fredric March',
+    'Gabriel Byrne',
     'Gary Cooper',
     'Gene Hackman',
     'Gene Tierney',
@@ -78,6 +80,7 @@ const favoriteActors = [
     'Jean Arthur',
     'Joan Fontaine',
     'John Carradine',
+    'John Cusack',
     'Kirk Douglas',
     'Lana Turner',
     'Lauren Bacall',
@@ -86,6 +89,7 @@ const favoriteActors = [
     'Marlene Dietrich',
     "Maureen O'Hara",
     'Max Von Sydow',
+    'Michael Caine',
     'Orson Welles',
     'Paul Newman',
     'Peter Cushing',
@@ -118,8 +122,10 @@ const favoriteDirectors = [
     'Alfred Hitchcock',
     'Billy Wilder',
     'David Lean',
+    'Ethan Coen',
     'Francis Ford Coppola',
     'James Whale',
+    'Joel Coen',
     'John Ford',
     'John Frankenheimer',
     'John Huston',
@@ -137,6 +143,24 @@ const favoriteDirectors = [
     'Woody Allen',
 ];
 
+const favoriteWriters = [
+    'Ben Hecht',
+    'Dashiell Hammett',
+    'David Mamet',
+    'Dorothy B. Hughes',
+    'Ethan Coen',
+    'Jay Dratler',
+    'Jo Eisinger',
+    'Joel Coen',
+    'Jules Furthman',
+    'Lawrence Kasdan',
+    'Leigh Brackett',
+    'Orson Welles',
+    'Preston Sturges',
+    'Raymond Chandler',
+    'W. R. Burnett',
+];
+
 const isFavoriteGenre = {};
 favoriteGenres.forEach(x => isFavoriteGenre[x] = true);
 
@@ -146,11 +170,15 @@ favoriteActors.forEach(x => isFavoriteActor[x] = true);
 const isFavoriteDirector = {};
 favoriteDirectors.forEach(x => isFavoriteDirector[x] = true);
 
+const isFavoriteWriter = {};
+favoriteWriters.forEach(x => isFavoriteWriter[x] = true);
+
 // Return true if the program matches any of our favorite genres, actors, or directors.
 function matchesFavorites(program, title, credits) {
     return title.genres.some(genre => isFavoriteGenre[genre]) ||
         names(actors(credits)).some(actor => isFavoriteActor[actor]) ||
-        names(directors(credits)).some(director => isFavoriteDirector[director]);
+        names(directors(credits)).some(director => isFavoriteDirector[director]) ||
+        names(writers(credits)).some(writer => isFavoriteWriter[writer]);
 }
 
 // Return current date, e.g., '2016-10-25'

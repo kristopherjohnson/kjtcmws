@@ -7,7 +7,7 @@ Classic Movies, using TCM's Web Services APIs as described at
 
 My goal is to have an automated service that notifies me when "something good"
 is showing on TCM so that I can set my DVR to record it.  It looks for
-particular genres, actors, and directors.
+particular genres, actors, directors, and screenwriters.
 
 Requires [Node](http://nodejs.org).  Run `npm install` to install the
 dependencies, then execute `tcmws.js` to display what's coming up in the next
@@ -17,7 +17,7 @@ For an example of the output, see <https://gist.github.com/kristopherjohnson/240
 
 I like film noir and classic horror and sci-fi movies.  If your tastes vary
 from mine, just modify the definitions of `favoriteGenres`, `favoriteActors`,
-and `favoriteDirectors` in the script.
+`favoriteDirectors`, and `favoriteWriters` in the script.
 
 I don't know why, but once in a while the TCM web service returns invalid
 responses with a 200 status code.  If you get an error indicating that
