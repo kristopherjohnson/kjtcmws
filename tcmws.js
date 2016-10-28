@@ -217,43 +217,39 @@ function isFourStarMaltinRating(maltin) {
     return (maltin && maltin.rating == '****');
 }
 
-// Retrieve title information from web service.
-// Callback takes arguments (error, title).
-function getTitle(titleId, callback) {
+// Make a request for JSON data.
+// Callback takes arguments (error, body), where body is a JSON object.
+function getJSON(url, callback) {
     const options = {
-        url: `${tcmwsBase}/title/${titleId}.json`,
+        url: url,
         json: true
     };
     request.get(options, (error, response, body) => {
-        if (error) {
-            callback(error);
+        if (!error && response.statusCode != 200) {
+            error = new Error(`Unexpected response status code ${response.statusCode}`);
+            body = null;
         }
-        else if (response.statusCode == 200) {
-            callback(null, body.tcm.title);
-        }
-        else {
-            callback(new Error(`Unexpected status code ${response.statusCode}`));
-        }
+        callback(error, body);
+    });
+}
+
+// Retrieve title information from web service.
+// Callback takes arguments (error, title).
+function getTitle(titleId, callback) {
+    const url = `${tcmwsBase}/title/${titleId}.json`;
+    getJSON(url, (error, body) => {
+        const title = error ? null : body.tcm.title;
+        callback(error, title);
     });
 }
 
 // Retrieve credits information from web service.
 // Callback takes arguments (error, credits).
 function getCredits(titleId, callback) {
-    const options = {
-        url: `${tcmwsBase}/title/${titleId}/credits.json`,
-        json: true
-    };
-    request.get(options, (error, response, body) => {
-        if (error) {
-            callback(error);
-        }
-        else if (response.statusCode == 200) {
-            callback(null, body.tcm.title.credits);
-        }
-        else {
-            callback(new Error(`Unexpected status code ${response.statusCode}`));
-        }
+    const url = `${tcmwsBase}/title/${titleId}/credits.json`;
+    getJSON(url, (error, body) => {
+        const credits = error ? null : body.tcm.title.credits;
+        callback(error, credits);
     });
 }
 
@@ -261,26 +257,8 @@ function getCredits(titleId, callback) {
 function getDataForTitleId(titleId, callback) {
     async.parallel(
         [
-            done => {
-                getTitle(titleId, (error, title) => {
-                    if (error) {
-                        done(error);
-                    }
-                    else {
-                        done(null, title);
-                    }
-                });
-            },
-            done => {
-                getCredits(titleId, (error, credits) => {
-                    if (error) {
-                        done(error);
-                    }
-                    else {
-                        done(null, credits);
-                    }
-                });
-            }
+            done => getTitle(titleId, done),
+            done => getCredits(titleId, done)
         ],
         (error, results) => {
             if (error) {
@@ -296,20 +274,10 @@ function getDataForTitleId(titleId, callback) {
 // Get daily schedules.
 // Callback takes arguments (error, schedulesArray).
 function getSchedules(callback) {
-    const options = {
-        url: `${tcmwsBase}/schedule/us/est/${currentDateString()}.json?days=${numberOfDays}&includes=maltin`,
-        json: true
-    }
-    request.get(options, (error, response, body) => {
-        if (error) {
-            callback(error);
-        }
-        else if (response.statusCode == 200) {
-            callback(null, body.tcm.schedules);
-        }
-        else {
-            callback(new Error(`Unexpected status code ${response.statusCode}`));
-        }
+    const url = `${tcmwsBase}/schedule/us/est/${currentDateString()}.json?days=${numberOfDays}&includes=maltin`;
+    getJSON(url, (error, body) => {
+        var schedules = error ? null : body.tcm.schedules;
+        callback(error, schedules);
     });
 }
 
@@ -335,7 +303,6 @@ function showProgramIfInteresting(program, callback) {
     getDataForTitleId(program.titleId, (error, title, credits, review) => {
         if (error) {
             console.log(error);
-            callback(error);
         }
         else {
             if (isFourStarMaltinRating(program.maltin) || matchesFavorites(program, title, credits)) {
@@ -345,8 +312,8 @@ function showProgramIfInteresting(program, callback) {
                 logCredits(credits);
                 logMaltinRating(program.maltin);
             }
-            callback();
         }
+        callback(error);
     });
 }
 
@@ -406,11 +373,7 @@ function htmlSchedules() {
         else {
             async.eachSeries(
                 schedules,
-                (schedule, done) => {
-                    fillProgramData(schedule.programs, (error) => {
-                        done(error);
-                    });
-                },
+                (schedule, done) => fillProgramData(schedule.programs, done),
                 (error) => {
                     if (error) {
                         console.log(error);
