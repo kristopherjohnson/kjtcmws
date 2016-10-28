@@ -58,6 +58,7 @@ const favoriteActors = [
     'Dean Martin',
     'Deborah Kerr',
     'Edward G. Robinson',
+    'Eli Wallach',
     'Fred MacMurray',
     'Fredric March',
     'Gabriel Byrne',
@@ -177,7 +178,7 @@ favoriteDirectors.forEach(x => isFavoriteDirector[x] = true);
 const isFavoriteWriter = {};
 favoriteWriters.forEach(x => isFavoriteWriter[x] = true);
 
-// Return true if the program matches any of our favorite genres, actors, or directors.
+// Return true if the program matches any of our favorite genres, actors, directors, or writers.
 function matchesFavorites(program, title, credits) {
     return title.genres.some(genre => isFavoriteGenre[genre]) ||
         names(actors(credits)).some(actor => isFavoriteActor[actor]) ||
@@ -191,30 +192,33 @@ function currentDateString() {
     return dateformat(now, 'yyyy-mm-dd');
 }
 
-// Return 'name' property of array elements.
+// Return 'name' property values of array elements.
 function names(arr) {
     return arr.map(x => x.name);
 }
 
-// Return names as a comma-separated string.
+// Return names from an array of objects, as a comma-separated string.
 function namesString(arr) {
     return names(arr).join(', ');
 }
 
+// Extract the actor objects from credits.
 function actors(credits) {
     return credits.filter(x => x.roleName == 'ACTOR');
 }
 
+// Extract the director objects from credits.
 function directors(credits) {
     return credits.filter(x => x.roleName == 'DIRECTOR');
 }
 
+// Extract the writer objects from credits.
 function writers(credits) {
     return credits.filter(x => x.roleName == 'WRITER');
 }
 
 function isFourStarMaltinRating(maltin) {
-    return (maltin && maltin.rating == '****');
+    return maltin && (maltin.rating == '****');
 }
 
 // Make a request for JSON data.
