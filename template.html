@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>What's Good on TCM</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1>What's Good on TCM</h1>
+      <p>
+      These are the movies coming up on TCM this week that match <a href="http://undefinedvalue.com">Kris Johnson's</a> preferences.
+      </p>
+      <p>
+      For more information, see the <a href="https://github.com/kristopherjohnson/kjtcmws">script</a> that generates this list.
+      </p>
+
+      {{#each schedules}}
+
+        <h2>{{startDate}}</h2>
+
+        {{#each programs}}
+
+          {{#if isAMatch}}
+
+            <h3><small>{{time}}</small> {{name}}</h3>
+
+            <p>({{releaseYear}}) {{description}}</p>
+
+            <p><em>Genres:</em>
+            {{#each genres}}
+              {{this}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+            </p>
+
+            <p><em>Directed by:</em>
+            {{#if directors}}
+              {{#each directors}}
+                {{name}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+            {{else}}
+              N/A
+            {{/if}}
+            </p>
+
+            <p><em>Written by:</em>
+            {{#if writers}}
+              {{#each writers}}
+                {{name}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+            {{else}}
+              N/A
+            {{/if}}
+            </p>
+
+            <p><em>Cast:</em>
+            {{#if actors}}
+              {{#each actors}}
+                {{name}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+            {{else}}
+              N/A
+            {{/if}}
+            </p>
+
+            {{#if maltin.rating}}
+              <p><em>Maltin Rating:</em> {{maltin.rating}}</p>
+            {{/if}}
+            
+          {{/if}}
+
+        {{/each}}
+
+      {{/each}}
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous">
+    </script>
+  </body>
+</html>
+
+{{!-- vim: set ts=8 sw=2 tw=0 et :--}}

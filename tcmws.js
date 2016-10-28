@@ -9,6 +9,8 @@
 
 const async = require('async');
 const dateformat = require('dateformat');
+const fs = require('fs');
+const handlebars = require('handlebars');
 const request = require('request');
 
 // See <http://www.tcm.com/tcmws/v1/docs/welcome.html>
@@ -199,6 +201,22 @@ function namesString(arr) {
     return names(arr).join(', ');
 }
 
+function actors(credits) {
+    return credits.filter(x => x.roleName == 'ACTOR');
+}
+
+function directors(credits) {
+    return credits.filter(x => x.roleName == 'DIRECTOR');
+}
+
+function writers(credits) {
+    return credits.filter(x => x.roleName == 'WRITER');
+}
+
+function isFourStarMaltinRating(maltin) {
+    return (maltin && maltin.rating == '****');
+}
+
 // Retrieve title information from web service.
 // Callback takes arguments (error, title).
 function getTitle(titleId, callback) {
@@ -240,7 +258,7 @@ function getCredits(titleId, callback) {
 }
 
 // Get additional data for a title.  Callback takes arguments (error, title, credits).
-function getTitleInfo(titleId, callback) {
+function getDataForTitleId(titleId, callback) {
     async.parallel(
         [
             done => {
@@ -306,22 +324,6 @@ function logCredits(credits) {
     console.log(`Cast: ${namesString(actors(credits)) || 'N/A'}`);
 }
 
-function actors(credits) {
-    return credits.filter(x => x.roleName == 'ACTOR');
-}
-
-function directors(credits) {
-    return credits.filter(x => x.roleName == 'DIRECTOR');
-}
-
-function writers(credits) {
-    return credits.filter(x => x.roleName == 'WRITER');
-}
-
-function isFourStarMaltinRating(maltin) {
-    return (maltin && maltin.rating == '****');
-}
-
 function logMaltinRating(maltin) {
     if (maltin && maltin.rating) {
         console.log(`Maltin Rating: ${maltin.rating}`);
@@ -330,7 +332,7 @@ function logMaltinRating(maltin) {
 
 function showProgramIfInteresting(program, callback) {
     const titleId = program.titleId;
-    getTitleInfo(program.titleId, (error, title, credits, review) => {
+    getDataForTitleId(program.titleId, (error, title, credits, review) => {
         if (error) {
             console.log(error);
             callback(error);
@@ -348,7 +350,7 @@ function showProgramIfInteresting(program, callback) {
     });
 }
 
-function showSchedule(schedule, callback) {
+function logSchedule(schedule, callback) {
     console.log('');
     console.log('----------');
     console.log(schedule.startDate);
@@ -356,17 +358,77 @@ function showSchedule(schedule, callback) {
     async.eachSeries(schedule.programs, showProgramIfInteresting, callback);
 }
 
-function showSchedules() {
+function logSchedules() {
     getSchedules((error, schedules) => {
         if (error) {
             console.log(error);
         }
         else {
-            async.eachSeries(schedules, showSchedule);
+            async.eachSeries(schedules, logSchedule);
         }
     });
 }
 
-showSchedules();
+// HTML output
+
+// For each 'programs' element in 'schedules', request title and credits data
+// and then add 'genres', 'actors', 'directors', and 'writers' lists to
+// the program, and set 'isAMatch' if the program meets our criteria.
+function fillProgramData(programs, callback) {
+    async.eachSeries(
+        programs,
+        (program, done) => {
+            getDataForTitleId(program.titleId, (error, title, credits) => {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    program.genres = title.genres;
+                    program.actors = actors(credits);
+                    program.directors = directors(credits);
+                    program.writers = writers(credits);
+                    program.isAMatch= isFourStarMaltinRating(program.maltin) || matchesFavorites(program, title, credits);
+                }
+                done(error);
+            });
+        },
+        (error) => {
+            callback(error);
+        }
+    );
+}
+
+function htmlSchedules() {
+    getSchedules((error, schedules) => {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            async.eachSeries(
+                schedules,
+                (schedule, done) => {
+                    fillProgramData(schedule.programs, (error) => {
+                        done(error);
+                    });
+                },
+                (error) => {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        fs.readFile('template.html', 'utf-8', (error, source) => {
+                            const template = handlebars.compile(source);
+                            const html = template({ schedules: schedules });
+                            console.log(html)
+                        });
+                    }
+                }
+            );
+        }
+    });
+}
+
+//logSchedules();
+htmlSchedules();
 
 // vim: set ts=8 sw=4 tw=0 et :
