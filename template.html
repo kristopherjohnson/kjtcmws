@@ -7,6 +7,7 @@
     <title>What's Good on TCM?</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <style>
+      a:hover, a:visited, a:link, a:active { text-decoration: none; }
       .name { white-space: nowrap; }
     </style>
   </head>
@@ -14,7 +15,7 @@
     <div class="container">
       <h1>What's Good on TCM?</h1>
       <p>
-      These are the movies coming up on <a href="http://tcm.com">Turner&nbsp;Classic&nbsp;Movies</a> this week that match <a href="http://undefinedvalue.com">Kris&nbsp;Johnson's</a> preferences.
+      These are the movies coming up on <a href="http://www.tcm.com">Turner&nbsp;Classic&nbsp;Movies</a> this week that match <a href="http://undefinedvalue.com">Kris&nbsp;Johnson's</a> preferences.
       </p>
       <p>
       For more information, see the <a href="https://github.com/kristopherjohnson/kjtcmws">script</a> that generates this list.
@@ -28,8 +29,7 @@
 
           {{#if isAMatch}}
 
-            <h3><small>{{time}}</small></h3>
-            <h4>{{name}}</h4>
+            <h3><small>{{time}}</small> <a href="http://www.tcm.com/watchtcm/movies/{{watchtcmURL}}">{{name}}</a></h3>
 
             <p>{{description}} <em>({{releaseYear}},&nbsp;{{runtimeMinutes}}&nbsp;min.)</em></p>
 
