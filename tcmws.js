@@ -8,6 +8,7 @@
 "use strict";
 
 const async = require('async');
+const argv = require('yargs').argv;
 const dateformat = require('dateformat');
 const fs = require('fs');
 const handlebars = require('handlebars');
@@ -399,7 +400,17 @@ function htmlSchedules() {
     });
 }
 
-//logSchedules();
-htmlSchedules();
+if (argv.help) {
+    console.log('Usage: node tcmws.js [--help] [--html]');
+    console.log('Options:');
+    console.log('  --help: print this help message');
+    console.log('  --html: produce HTML output');
+}
+else if (argv.html) {
+    htmlSchedules();
+}
+else {
+    logSchedules();
+}
 
 // vim: set ts=8 sw=4 tw=0 et :
