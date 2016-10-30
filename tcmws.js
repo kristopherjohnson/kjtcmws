@@ -8,17 +8,20 @@
 "use strict";
 
 const async = require('async');
-const argv = require('yargs').argv;
 const dateformat = require('dateformat');
 const fs = require('fs');
 const handlebars = require('handlebars');
 const request = require('request');
 
+// By default, print schedules for a week.
+var numberOfDays = 7;
+
+// By default, write to stdout
+var outs = process.stdout;
+
 // See <http://www.tcm.com/tcmws/v1/docs/welcome.html>
 // for web service interface details.
 const tcmwsBase = 'http://www.tcm.com/tcmws/v1';
-
-const numberOfDays = 7;
 
 // List of available genres: <http://www.tcm.com/tcmws/v1/schedule/genres.json>
 const favoriteGenres = [
@@ -391,7 +394,7 @@ function htmlSchedules() {
                         fs.readFile('template.html', 'utf-8', (error, source) => {
                             const template = handlebars.compile(source);
                             const html = template({ schedules: schedules });
-                            console.log(html)
+                            outs.write(html)
                         });
                     }
                 }
@@ -400,13 +403,32 @@ function htmlSchedules() {
     });
 }
 
-if (argv.help) {
-    console.log('Usage: node tcmws.js [--help] [--html]');
-    console.log('Options:');
-    console.log('  --help: print this help message');
-    console.log('  --html: produce HTML output');
+// Command-line arguments
+const argv = require('yargs')
+    .strict()
+    .usage('Usage: $0 [options]')
+    .boolean('html')
+    .describe('html', 'Produce HTML output')
+    .string('output')
+    .alias('o', 'output')
+    .describe('output', 'Specify output file path')
+    .number('days')
+    .alias('n', 'days')
+    .default('days', 7)
+    .describe('days', 'Number of days for schedules')
+    .help('help')
+    .alias('h', 'help')
+    .example('$0', 'Write one-week text schedule to stdout')
+    .example('$0 --html --o tcm.html -n14', 'Write two-week schedule to tcm.html')
+    .argv;
+
+if (argv.output) {
+    outs = fs.createWriteStream(argv.output, {flags : 'w'});
 }
-else if (argv.html) {
+
+numberOfDays = argv.days;
+
+if (argv.html) {
     htmlSchedules();
 }
 else {
