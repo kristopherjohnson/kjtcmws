@@ -354,6 +354,10 @@ function fillProgramData(programs, callback) {
                     console.log(error);
                 }
                 else {
+                    if (program.name.endsWith(', The')) {
+                        // Change a title like "Lone Ranger, The" to "The Lone Ranger"
+                        program.name = 'The ' + program.name.substr(0, program.name.length - 5);
+                    }
                     program.genres = title.genres;
                     program.actors = actors(credits);
                     program.directors = directors(credits);
