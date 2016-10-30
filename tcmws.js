@@ -109,7 +109,7 @@ const favoriteActors = [
     'Robert Redford',
     'Sammy Davis Jr.',
     'Sean Connery',
-    'Sidnwy Poitier',
+    'Sidney Poitier',
     'Sophia Loren',
     'Steve McQueen',
     'Sydney Greenstreet',
