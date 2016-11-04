@@ -309,7 +309,7 @@ function logMaltinRating(maltin) {
     }
 }
 
-function showProgramIfInteresting(program, callback) {
+function logProgramIfInteresting(program, callback) {
     const titleId = program.titleId;
     getDataForTitleId(program.titleId, (error, title, credits, review) => {
         if (error) {
@@ -333,7 +333,7 @@ function logSchedule(schedule, callback) {
     console.log('----------');
     console.log(schedule.startDate);
     console.log('----------');
-    async.eachSeries(schedule.programs, showProgramIfInteresting, callback);
+    async.eachSeries(schedule.programs, logProgramIfInteresting, callback);
 }
 
 function logSchedules() {
@@ -369,7 +369,7 @@ function fillProgramData(programs, callback) {
                     program.actors = actors(credits);
                     program.directors = directors(credits);
                     program.writers = writers(credits);
-                    program.isAMatch= isFourStarMaltinRating(program.maltin) || matchesFavorites(program, title, credits);
+                    program.isAMatch = isFourStarMaltinRating(program.maltin) || matchesFavorites(program, title, credits);
                 }
                 done(error);
             });
