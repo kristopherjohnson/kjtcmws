@@ -23,6 +23,9 @@ var outs = process.stdout;
 // for web service interface details.
 const tcmwsBase = 'http://www.tcm.com/tcmws/v1';
 
+// Search for text on www.tcm.com
+const tcmSearchPrefix = 'http://www.tcm.com/search/?text='
+
 // List of available genres: <http://www.tcm.com/tcmws/v1/schedule/genres.json>
 const favoriteGenres = [
     'Black Comedy',
@@ -376,6 +379,12 @@ function fillProgramData(programs, callback) {
         }
     );
 }
+
+// Use {{tcmSearchLink text}} in Handlebars template to generate a URL for
+// searching that text on the TCM web site.
+handlebars.registerHelper('tcmSearchLink', function(text) {
+    return new handlebars.SafeString(tcmSearchPrefix + encodeURIComponent(text));
+});
 
 function htmlSchedules() {
     getSchedules((error, schedules) => {

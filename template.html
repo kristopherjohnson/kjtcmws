@@ -7,8 +7,12 @@
     <title>What's Good on TCM?</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <style>
-a:hover, a:visited, a:link, a:active { text-decoration: none; }
-.name { white-space: nowrap; } 
+a:visited, a:link { text-decoration: none; }
+a:hover, a:active { text-decoration: underline; }
+
+.name, .title { white-space: nowrap; } 
+
+.name a:visited, .name a:link { color: black; }
 
 h1 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
 h2 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
@@ -72,7 +76,7 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
         {{#if isAMatch}}
 
-        <h3><small>{{time}}</small> <a href="http://www.tcm.com/watchtcm/movies/{{watchtcmURL}}">{{name}}</a></h3>
+        <h3><small>{{time}}</small> <span class="title"><a href="{{tcmSearchLink name}}">{{name}}</a></span></h3>
 
         <p>{{description}} <em>({{releaseYear}},&nbsp;{{runtimeMinutes}}&nbsp;min.)</em></p>
 
@@ -88,7 +92,7 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
             <p><strong>Directed by:</strong>
             {{#if directors}}
             {{#each directors}}
-            <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
+            <span class="name"><a href="{{tcmSearchLink name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
             {{/each}}
             {{else}}
             N/A
@@ -98,7 +102,7 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
             <p><strong>Written by:</strong>
             {{#if writers}}
             {{#each writers}}
-            <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
+            <span class="name"><a href="{{tcmSearchLink name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
             {{/each}}
             {{else}}
             N/A
@@ -115,7 +119,7 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
             <p><strong>Cast:</strong>
             {{#if actors}}
             {{#each actors}}
-            <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
+            <span class="name"><a href="{{tcmSearchLink name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
             {{/each}}
             {{else}}
             N/A
