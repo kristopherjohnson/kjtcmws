@@ -3,17 +3,21 @@ kjtcmws
 
 This is a simple experiment to retrieve schedule information from Turner
 Classic Movies, using TCM's Web Services APIs as described at
-<http://www.tcm.com/tcmws/v1/docs/welcome.html>.
+<http://www.tcm.com/tcmws/v1/docs/welcome.html>, and show only the
+movies that match my preference.
 
 My goal is to have an automated service that notifies me when "something good"
 is showing on TCM so that I can set my DVR to record it.  It looks for
-particular genres, actors, directors, and screenwriters.
+particular genres, actors, directors, and screenwriters, and for movies
+that have earned a four-star rating from Leonard Maltin.
+
+For an example of the text output, see <https://gist.github.com/kristopherjohnson/2406522eb20a2639b85321a0a335e56e>.
+
+For an example of the HTML output, see <http://secretspacelab.com/tcm.html>.
 
 Requires [Node](http://nodejs.org).  Run `npm install` to install the
 dependencies, then execute `tcmws.js` to display what's coming up in the next
 week on TCM.
-
-For an example of the output, see <https://gist.github.com/kristopherjohnson/2406522eb20a2639b85321a0a335e56e>.
 
 I like film noir and classic horror and sci-fi movies.  If your tastes vary
 from mine, just modify the definitions of `favoriteGenres`, `favoriteActors`,
