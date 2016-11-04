@@ -7,109 +7,129 @@
     <title>What's Good on TCM?</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <style>
-      a:hover, a:visited, a:link, a:active { text-decoration: none; }
-      .name { white-space: nowrap; } 
+a:hover, a:visited, a:link, a:active { text-decoration: none; }
+.name { white-space: nowrap; } 
 
-      h1 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
-      h2 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
-      h3 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
-      h4 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
-      h5 { font-size: 1.8rem; line-height: 1.5;  letter-spacing: -.05rem; }
-      h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+h1 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
+h2 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
+h3 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
+h4 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
+h5 { font-size: 1.8rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
-      @media (min-width: 550px)
-      {
-        h1 { font-size: 3.0rem; }
-        h2 { font-size: 3.0rem; }
-        h3 { font-size: 3.0rem; }
-        h4 { font-size: 3.0rem; }
-        h5 { font-size: 2.4rem; }
-        h6 { font-size: 1.5rem; }
-      }
+@media (min-width: 550px)
+{
+  h1 { font-size: 3.0rem; }
+  h2 { font-size: 3.0rem; }
+  h3 { font-size: 3.0rem; }
+  h4 { font-size: 3.0rem; }
+  h5 { font-size: 2.4rem; }
+  h6 { font-size: 1.5rem; }
+}
     </style>
   </head>
   <body>
     <div class="container">
+
       <h1>What's Good on TCM?</h1>
-      <p>
-      These are the movies coming up on <a href="http://www.tcm.com">Turner&nbsp;Classic&nbsp;Movies</a> this week that match <a href="http://undefinedvalue.com">Kris&nbsp;Johnson's</a> preferences.  He likes film noir and classic horror films.
-      </p>
-      <p>
-      This schedule is for the eastern US broadcast feed, and all times are in the US&nbsp;Eastern timezone.
-      Each day's schedule starts at 6:00&nbsp;AM.
-      Most programs are available on demand from <a href="http://www.tcm.com/watchtcm/">Watch&nbsp;TCM</a>.
-      </p>
-      <p>
-      For more information, see the <a href="https://github.com/kristopherjohnson/kjtcmws">script</a> that generates this list.
-      </p>
+
+      <div class="row">
+
+        <div class="nine columns">
+        <p>
+        These are the movies coming up on <a href="http://www.tcm.com">Turner&nbsp;Classic&nbsp;Movies</a>
+        this week that match <a href="http://undefinedvalue.com">Kris&nbsp;Johnson's</a> preferences.
+        He likes film noir and classic horror films.
+        </p>
+        <p>
+        This schedule is for the eastern US broadcast feed, and all times are in
+        the US&nbsp;Eastern timezone.  Each day's schedule starts at 6:00&nbsp;AM.
+        Most programs are available on <a href="http://www.tcm.com/watchtcm/">Watch&nbsp;TCM</a>
+        or on-demand from your cable/satellite provider.
+        </p>
+        <p>
+        For more information, see the <a href="https://github.com/kristopherjohnson/kjtcmws">script</a>
+        that generates this list.
+        </p>
+        </div>
+
+        <div class="three columns">
+          <ul>
+            {{#each schedules}}
+            <li><a href="#{{startDate}}">{{startDate}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+
+      </div>
 
       {{#each schedules}}
 
-        <hr>
-        <h2>{{startDate}}</h2>
+      <hr>
+      <a name="{{startDate}}"><h2>{{startDate}}</h2></a>
 
         {{#each programs}}
 
-          {{#if isAMatch}}
+        {{#if isAMatch}}
 
-            <h3><small>{{time}}</small> <a href="http://www.tcm.com/watchtcm/movies/{{watchtcmURL}}">{{name}}</a></h3>
+        <h3><small>{{time}}</small> <a href="http://www.tcm.com/watchtcm/movies/{{watchtcmURL}}">{{name}}</a></h3>
 
-            <p>{{description}} <em>({{releaseYear}},&nbsp;{{runtimeMinutes}}&nbsp;min.)</em></p>
+        <p>{{description}} <em>({{releaseYear}},&nbsp;{{runtimeMinutes}}&nbsp;min.)</em></p>
 
-            <div class="row">
-              <div class="one-half column">
+        <div class="row">
+          <div class="one-third column">
 
-                <p><strong>Genres:</strong>
-                {{#each genres}}
-                  {{this}}{{#unless @last}}, {{/unless}}
-                {{/each}}
-                </p>
+            <p><strong>Genres:</strong>
+            {{#each genres}}
+            {{this}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+            </p>
 
-                <p><strong>Directed by:</strong>
-                {{#if directors}}
-                  {{#each directors}}
-                    <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
-                  {{/each}}
-                {{else}}
-                  N/A
-                {{/if}}
-                </p>
+            <p><strong>Directed by:</strong>
+            {{#if directors}}
+            {{#each directors}}
+            <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
+            {{/each}}
+            {{else}}
+            N/A
+            {{/if}}
+            </p>
 
-                <p><strong>Written by:</strong>
-                {{#if writers}}
-                  {{#each writers}}
-                    <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
-                  {{/each}}
-                {{else}}
-                  N/A
-                {{/if}}
-                </p>
+            <p><strong>Written by:</strong>
+            {{#if writers}}
+            {{#each writers}}
+            <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
+            {{/each}}
+            {{else}}
+            N/A
+            {{/if}}
+            </p>
 
-                {{#if maltin.rating}}
-                  <p><strong>Maltin Rating:</strong> {{maltin.rating}}</p>
-                {{/if}}
-                
-              </div>
-              <div class="one-half column">
+            {{#if maltin.rating}}
+            <p><strong>Maltin Rating:</strong> {{maltin.rating}}</p>
+            {{/if}}
 
-                <p><strong>Cast:</strong>
-                {{#if actors}}
-                  {{#each actors}}
-                    <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
-                  {{/each}}
-                {{else}}
-                  N/A
-                {{/if}}
-                </p>
+          </div>
+          <div class="two-thirds column">
 
-              </div>
-            </div>
+            <p><strong>Cast:</strong>
+            {{#if actors}}
+            {{#each actors}}
+            <span class="name">{{name}}</span>{{#unless @last}}, {{/unless}}
+            {{/each}}
+            {{else}}
+            N/A
+            {{/if}}
+            </p>
 
-          {{/if}}
+          </div>
+        </div>
+
+        {{/if}}
 
         {{/each}}
 
-      {{/each}}
+        {{/each}}
     </div>
   </body>
 </html>
