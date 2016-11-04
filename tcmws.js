@@ -386,6 +386,12 @@ handlebars.registerHelper('tcmSearchLink', function(text) {
     return new handlebars.SafeString(tcmSearchPrefix + encodeURIComponent(text));
 });
 
+// Use {{ratingStars rating}} to convert the Maltin rating asterisks and '1/2'
+// to graphic characters.
+handlebars.registerHelper('ratingStars', function(rating) {
+    return rating.replace(new RegExp('\\*', 'g'), '\u2605').replace('1/2', '\u00bd');
+});
+
 function htmlSchedules() {
     getSchedules((error, schedules) => {
         if (error) {
