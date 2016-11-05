@@ -91,82 +91,78 @@
 
         {{#each programs}}
 
-        {{#if isAMatch}}
+          {{#if isAMatch}}
 
-        <h3 id="program-{{programId}}"><small>{{time}}</small> <span class="title"><a href="{{tcmSearchTitle name}}">{{name}}</a></span></h3>
+            <h3 id="program-{{programId}}"><small>{{time}}</small> <span class="title"><a href="{{tcmSearchTitle name}}">{{name}}</a></span></h3>
 
-        <p>{{description}} <em><span class="nowrap">({{releaseYear}}, {{runtimeMinutes}} min.)</span></em></p>
+            <p>{{description}} <em><span class="nowrap">({{releaseYear}}, {{runtimeMinutes}} min.)</span></em></p>
 
-        <div class="row">
-          <div class="one-third column">
+            <div class="row">
+              <div class="one-third column">
 
-            <p><strong>Genres:</strong>
-            {{#each genres}}
-            {{this}}{{#unless @last}}, {{/unless}}
-            {{/each}}
-            </p>
-
-            <p><strong>Directed by:</strong>
-            {{#if directors}}
-            {{#each directors}}
-            <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
-            {{/each}}
-            {{else}}
-            N/A
-            {{/if}}
-            </p>
-
-            <p><strong>Written by:</strong>
-            {{#if writers}}
-            {{#each writers}}
-            <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
-            {{/each}}
-            {{else}}
-            N/A
-            {{/if}}
-            </p>
-
-            {{#if maltin.rating}}
-            <p><strong>Maltin Rating:</strong> <span class="starRating">{{ratingStars maltin.rating}}</span></p>
-            {{/if}}
-
-          </div>
-          <div class="two-thirds column">
-
-            {{#if actors}}
-              <p><strong>Cast:</strong>
-              {{#if actorsOverflow}}
-                {{#each actors}}
-                  <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>,
-                {{/each}}
-                <span id="actorsExpand-{{programId}}"
-                      title="Show More"
-                      class="expand"
-                      style="display: inline;"
-                      onclick=" toggleInlineDisplay('actorsExpand-{{programId}}'); toggleInlineDisplay('actorsOverflow-{{programId}}');"
-                  >...</span>
-                  <span id="actorsOverflow-{{programId}}" class="overflow">
-                    {{#each actorsOverflow}}
-                    <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                {{#if genres}}
+                  <p><strong>Genres:</strong>
+                    {{#each genres}}
+                      {{this}}{{#unless @last}}, {{/unless}}
                     {{/each}}
-                  </span>
-                </span>
-              {{else}}
-                {{#each actors}}
-                  <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
-                {{/each}}
-              {{/if}}
-              </p>
-            {{/if}}
+                  </p>
+                {{/if}}
 
-          </div>
-        </div>
+                {{#if directors}}
+                  <p><strong>Directed by:</strong>
+                    {{#each directors}}
+                      <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </p>
+                {{/if}}
 
-        {{/if}}
+                {{#if writers}}
+                  <p><strong>Written by:</strong>
+                    {{#each writers}}
+                      <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </p>
+                {{/if}}
 
-        {{/each}}
+                {{#if maltin.rating}}
+                  <p><strong>Maltin Rating:</strong> <span class="starRating">{{ratingStars maltin.rating}}</span></p>
+                {{/if}}
 
-        {{/each}}
+              </div>
+              <div class="two-thirds column">
+
+                {{#if actors}}
+                  <p><strong>Cast:</strong>
+                    {{#if actorsOverflow}}
+                      {{#each actors}}
+                        <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>,
+                      {{/each}}
+                      <span id="actorsExpand-{{programId}}"
+                            title="Show More"
+                            class="expand"
+                            style="display: inline;"
+                            onclick=" toggleInlineDisplay('actorsExpand-{{programId}}'); toggleInlineDisplay('actorsOverflow-{{programId}}');"
+                        >...</span>
+                        <span id="actorsOverflow-{{programId}}" class="overflow">
+                          {{#each actorsOverflow}}
+                          <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                          {{/each}}
+                        </span>
+                      </span>
+                    {{else}}
+                      {{#each actors}}
+                        <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                      {{/each}}
+                    {{/if}}
+                  </p>
+                {{/if}}
+
+              </div>
+            </div>
+
+          {{/if}} {{!-- isAMatch --}}
+        {{/each}} {{!-- programs --}}
+      {{/each}} {{!-- schedules --}}
     </div>
   </body>
 </html>
