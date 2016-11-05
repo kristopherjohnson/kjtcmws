@@ -173,6 +173,7 @@ const favoriteWriters = [
     'Orson Welles',
     'Preston Sturges',
     'Raymond Chandler',
+    'Rod Serling',
     'W. R. Burnett',
 ];
 
