@@ -380,10 +380,14 @@ function fillProgramData(programs, callback) {
     );
 }
 
-// Use {{tcmSearchLink text}} in Handlebars template to generate a URL for
-// searching that text on the TCM web site.
-handlebars.registerHelper('tcmSearchLink', function(text) {
-    return new handlebars.SafeString(tcmSearchPrefix + encodeURIComponent(text));
+// Return URL for searching for a person in TCM database.
+handlebars.registerHelper('tcmSearchPerson', function(name) {
+    return new handlebars.SafeString(tcmSearchPrefix + encodeURIComponent(name) + '&type=participant');
+});
+
+// Return URL for searching for a title in the TCM database.
+handlebars.registerHelper('tcmSearchTitle', function(title) {
+    return new handlebars.SafeString(tcmSearchPrefix + encodeURIComponent(title) + '&type=title');
 });
 
 // Use {{ratingStars rating}} to convert the Maltin rating asterisks and '1/2'
