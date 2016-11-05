@@ -116,6 +116,14 @@
                   </p>
                 {{/if}}
 
+                {{#if cinematographers}}
+                  <p><strong>Cinematography:</strong>
+                    {{#each cinematographers}}
+                      <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </p>
+                {{/if}}
+
                 {{#if writers}}
                   <p><strong>Written by:</strong>
                     {{#each writers}}

@@ -227,6 +227,11 @@ function writers(credits) {
     return credits.filter(x => x.roleName == 'WRITER');
 }
 
+// Extract the cinematographers from credits.
+function cinematographers(credits) {
+    return credits.filter(x => x.roleCategory == 'Cinematography');
+}
+
 function isFourStarMaltinRating(maltin) {
     return maltin && (maltin.rating == '****');
 }
@@ -376,6 +381,7 @@ function fillProgramData(programs, callback) {
                     program.genres = title.genres;
                     program.directors = directors(credits);
                     program.writers = writers(credits);
+                    program.cinematographers = cinematographers(credits);
                     program.isAMatch = isFourStarMaltinRating(program.maltin) || matchesFavorites(program, title, credits);
 
                     const allActors = actors(credits);
