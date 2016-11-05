@@ -19,6 +19,9 @@ var numberOfDays = 7;
 // By default, write to stdout
 var outs = process.stdout;
 
+// Unique identifier for each program processed by fillProgramData()
+var nextProgramId = 1;
+
 // See <http://www.tcm.com/tcmws/v1/docs/welcome.html>
 // for web service interface details.
 const tcmwsBase = 'http://www.tcm.com/tcmws/v1';
@@ -351,7 +354,11 @@ function logSchedules() {
 
 // For each 'programs' element in 'schedules', request title and credits data
 // and then add 'genres', 'actors', 'directors', and 'writers' lists to
-// the program, and set 'isAMatch' if the program meets our criteria.
+// the program, and set 'isAMatch' if the program meets our criteria, and
+// add a unique 'programId'.
+//
+// If there are more than 20 actors, the 'actors' array will contain
+// the first 20, and the remainder will be in an 'actorsOverflow' array.
 function fillProgramData(programs, callback) {
     async.eachSeries(
         programs,
@@ -365,11 +372,21 @@ function fillProgramData(programs, callback) {
                         // Change a title like "Lone Ranger, The" to "The Lone Ranger"
                         program.name = 'The ' + program.name.substr(0, program.name.length - 5);
                     }
+                    program.programId = nextProgramId++;
                     program.genres = title.genres;
-                    program.actors = actors(credits);
                     program.directors = directors(credits);
                     program.writers = writers(credits);
                     program.isAMatch = isFourStarMaltinRating(program.maltin) || matchesFavorites(program, title, credits);
+
+                    const allActors = actors(credits);
+                    const maxActors = 20;
+                    if (allActors.length > maxActors) {
+                        program.actors = allActors.slice(0, maxActors);
+                        program.actorsOverflow = allActors.slice(maxActors);
+                    }
+                    else {
+                        program.actors = allActors;
+                    }
                 }
                 done(error);
             });

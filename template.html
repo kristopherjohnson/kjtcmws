@@ -10,11 +10,16 @@
       a:visited, a:link { text-decoration: none; }
       a:hover, a:active { text-decoration: underline; }
 
-      .name, .title { white-space: nowrap; } 
+      .name, .title, .nowrap { white-space: nowrap; }
 
       .name a:visited, .name a:link { color: black; }
 
-      .rating { color: coral; }
+      .starRating { color: coral; }
+
+      .expand { cursor: pointer; }
+      .expand:hover, .expand:active { text-decoration: underline; }
+
+      .overflow { display: none; }
 
       h1 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
       h2 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
@@ -33,6 +38,16 @@
         h6 { font-size: 1.5rem; }
       }
     </style>
+
+    <script type="text/javascript">
+      function toggleInlineDisplay(id) {
+        var e = document.getElementById(id);
+        if (e.style.display == 'inline')
+          e.style.display = 'none';
+        else
+          e.style.display = 'inline';
+        }
+    </script>
   </head>
   <body>
     <div class="container">
@@ -43,14 +58,14 @@
 
         <div class="nine columns">
         <p>
-        These are the movies coming up on <a href="http://www.tcm.com">Turner&nbsp;Classic&nbsp;Movies</a>
-        this week that match <a href="http://undefinedvalue.com">Kris&nbsp;Johnson's</a> preferences.
+        These are the movies coming up on <a href="http://www.tcm.com"><span class="nowrap">Turner Classic Movies</span></a>
+        this week that match <a href="http://undefinedvalue.com"><span class="nowrap">Kris Johnson's</span></a> preferences.
         He likes film noir and classic horror films.
         </p>
         <p>
         This schedule is for the eastern US broadcast feed, and all times are in
-        the US&nbsp;Eastern timezone.  Each day's schedule starts at 6:00&nbsp;AM.
-        Most programs are available on <a href="http://www.tcm.com/watchtcm/">Watch&nbsp;TCM</a>
+        the <span class="nowrap">US Eastern</span> timezone.  Each day's schedule starts at <span class="nowrap">6:00 AM</span>.
+        Most programs are available on <a href="http://www.tcm.com/watchtcm/"><span class="nowrap">Watch TCM</span></a>
         or on-demand from your cable/satellite provider.
         </p>
         <p>
@@ -78,9 +93,9 @@
 
         {{#if isAMatch}}
 
-        <h3><small>{{time}}</small> <span class="title"><a href="{{tcmSearchTitle name}}">{{name}}</a></span></h3>
+        <h3 id="program-{{programId}}"><small>{{time}}</small> <span class="title"><a href="{{tcmSearchTitle name}}">{{name}}</a></span></h3>
 
-        <p>{{description}} <em>({{releaseYear}},&nbsp;{{runtimeMinutes}}&nbsp;min.)</em></p>
+        <p>{{description}} <em><span class="nowrap">({{releaseYear}}, {{runtimeMinutes}} min.)</span></em></p>
 
         <div class="row">
           <div class="one-third column">
@@ -112,21 +127,37 @@
             </p>
 
             {{#if maltin.rating}}
-            <p><strong>Maltin Rating:</strong> <span class="rating">{{ratingStars maltin.rating}}</span></p>
+            <p><strong>Maltin Rating:</strong> <span class="starRating">{{ratingStars maltin.rating}}</span></p>
             {{/if}}
 
           </div>
           <div class="two-thirds column">
 
-            <p><strong>Cast:</strong>
             {{#if actors}}
-            {{#each actors}}
-            <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
-            {{/each}}
-            {{else}}
-            N/A
+              <p><strong>Cast:</strong>
+              {{#if actorsOverflow}}
+                {{#each actors}}
+                  <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>,
+                {{/each}}
+                <span id="actorsExpand-{{programId}}"
+                      title="Show More"
+                      class="expand"
+                      style="display: inline;"
+                      onclick=" toggleInlineDisplay('actorsExpand-{{programId}}'); toggleInlineDisplay('actorsOverflow-{{programId}}');"
+                  >...</span>
+                  <span id="actorsOverflow-{{programId}}" class="overflow">
+                    {{#each actorsOverflow}}
+                    <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                    {{/each}}
+                  </span>
+                </span>
+              {{else}}
+                {{#each actors}}
+                  <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                {{/each}}
+              {{/if}}
+              </p>
             {{/if}}
-            </p>
 
           </div>
         </div>
