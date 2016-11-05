@@ -403,12 +403,17 @@ function fillProgramData(programs, callback) {
     );
 }
 
-// Return URL for searching for a person in TCM database.
+// Handlebars expression {{timestamp}} for current date/time.
+handlebars.registerHelper('timestamp', function() {
+    return new Date().toString();
+})
+
+// Handlebars expression {{tcmSearchPerson name}} for URL for searching for a person in TCM database.
 handlebars.registerHelper('tcmSearchPerson', function(name) {
     return new handlebars.SafeString(tcmSearchPrefix + encodeURIComponent(name) + '&type=participant');
 });
 
-// Return URL for searching for a title in the TCM database.
+// Handlebars expression {{tcmSearchtitle title}} for URL for searching for a title in the TCM database.
 handlebars.registerHelper('tcmSearchTitle', function(title) {
     return new handlebars.SafeString(tcmSearchPrefix + encodeURIComponent(title) + '&type=title');
 });
