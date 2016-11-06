@@ -2,11 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>What's Good on TCM?</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
     <style>
       a:visited, a:link { text-decoration: none; }
       a:hover, a:active { text-decoration: underline; }
@@ -22,7 +24,7 @@
 
       .overflow { display: none; }
 
-      .timestamp { font-size: 0.6rem; }
+      .timestamp { font-size: 0.9rem; }
 
       h1 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
       h2 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
@@ -63,9 +65,9 @@
 
         <div class="nine columns">
         <p>
-        These are the movies coming up on <a href="http://www.tcm.com"><span class="nowrap">Turner Classic Movies</span></a>
-        this week that match <a href="http://undefinedvalue.com"><span class="nowrap">Kris Johnson's</span></a> preferences.
-        He likes film noir and classic horror films.
+        These are the movies coming up this week on <a href="http://www.tcm.com"><span class="nowrap">Turner Classic Movies</span></a>
+        that match <a href="http://undefinedvalue.com"><span class="nowrap">Kris Johnson's</span></a> preferences.
+        He likes film noir, horror, sci-fi, and westerns.
         </p>
         <p>
         This schedule is for the eastern US broadcast feed, and all times are in
@@ -74,7 +76,7 @@
         or on-demand from your cable/satellite provider.
         </p>
         <p>
-        For more information, see the <a href="https://github.com/kristopherjohnson/kjtcmws">script</a>
+        For more information, see the <a href="https://github.com/kristopherjohnson/kjtcmws/blob/master/tcmws.js">script</a>
         that generates this list.
         </p>
         </div>
@@ -82,7 +84,7 @@
         <div class="three columns">
           <ul>
             {{#each schedules}}
-            <li><a href="#{{startDate}}">{{startDate}}</a></li>
+              <li><a href="#{{startDate}}">{{startDate}}</a></li>
             {{/each}}
           </ul>
         </div>
@@ -158,11 +160,11 @@
                         >...</span>
                         <span id="actorsOverflow-{{programId}}" class="overflow">
                           {{#each actorsOverflow}}
-                          <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
+                            <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
                           {{/each}}
                         </span>
                       </span>
-                    {{else}}
+                    {{else}} {{!-- No overflow --}}
                       {{#each actors}}
                         <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
                       {{/each}}
