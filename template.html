@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  {{!-- This Handlebars template is used by tcmws.js to generate HTML. --}}
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -168,9 +169,9 @@
                       {{#each actors}}
                         <span class="name"><a href="{{tcmSearchPerson name}}">{{name}}</a></span>{{#unless @last}}, {{/unless}}
                       {{/each}}
-                    {{/if}}
+                    {{/if}} {{!-- actorsOverflow --}}
                   </p>
-                {{/if}}
+                {{/if}} {{!-- actors --}}
 
               </div>
             </div>
