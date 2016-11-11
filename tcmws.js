@@ -156,6 +156,7 @@ const favoriteDirectors = [
     'Sidney Lumet',
     'Stanley Kubrick',
     'Terence Fisher',
+    'Walter Hill',
     'Woody Allen',
 ];
 
@@ -176,6 +177,7 @@ const favoriteWriters = [
     'Raymond Chandler',
     'Rod Serling',
     'W. R. Burnett',
+    'Walter Hill',
 ];
 
 const isFavoriteGenre = {};
