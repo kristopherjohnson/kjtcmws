@@ -117,6 +117,7 @@ const favoriteActors = [
     'Robert Montgomery',
     'Ronald Colman',
     'Robert Redford',
+    'Robert Vaughn',
     'Sammy Davis Jr.',
     'Sean Connery',
     'Sidney Poitier',
