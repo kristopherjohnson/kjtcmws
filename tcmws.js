@@ -59,6 +59,7 @@ const favoriteActors = [
     'Burt Lancaster',
     'Cary Grant',
     'Cesar Romero',
+    'Charles Coburn',
     'Charles Laughton',
     'Christopher Lee',
     'Claire Trevor',
@@ -378,9 +379,16 @@ function fillProgramData(programs, callback) {
                     console.log(error);
                 }
                 else {
+                    // Change a title like "Lone Ranger, The" to "The Lone Ranger"
+                    // or "Cry in the Night, A" to "A Cry in the Night"
                     if (program.name.endsWith(', The')) {
-                        // Change a title like "Lone Ranger, The" to "The Lone Ranger"
                         program.name = 'The ' + program.name.substr(0, program.name.length - 5);
+                    }
+                    if (program.name.endsWith(', A')) {
+                        program.name = 'A ' + program.name.substr(0, program.name.length - 3);
+                    }
+                    if (program.name.endsWith(', An')) {
+                        program.name = 'An ' + program.name.substr(0, program.name.length - 4);
                     }
                     program.programId = nextProgramId++;
                     program.genres = title.genres;
