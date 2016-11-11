@@ -139,6 +139,7 @@ const favoriteDirectors = [
     'David Lean',
     'Ethan Coen',
     'Francis Coppola',
+    'Howard Hawks',
     'James Whale',
     'Joel Coen',
     'John Ford',
