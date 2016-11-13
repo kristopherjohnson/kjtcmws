@@ -48,6 +48,7 @@ const favoriteGenres = [
 const favoriteActors = [
     'Alan Arkin',
     'Alec Guinness',
+    'Angie Dickinson',
     'Anthony Hopkins',
     'Anthony Perkins',
     'Anthony Quinn',
