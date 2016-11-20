@@ -78,6 +78,7 @@ const favoriteActors = [
     'Gene Hackman',
     'Gene Tierney',
     'Gene Wilder',
+    'George Hamilton',
     'George Sanders',
     'Glenn Ford',
     'Greer Garson',
