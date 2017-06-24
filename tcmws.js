@@ -108,6 +108,7 @@ const favoriteActors = [
     'Marlene Dietrich',
     "Maureen O'Hara",
     'Max Von Sydow',
+    'Melvyn Douglas',
     'Michael Caine',
     'Orson Welles',
     'Paul Newman',
